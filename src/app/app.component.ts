@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { of, from } from 'rxjs';
 
+import { map, tap, take } from 'rxjs/operators';
+
 @Component({
   selector: 'pm-root',
   templateUrl: './app.component.html',
@@ -30,6 +32,12 @@ export class AppComponent implements OnInit {
       err => console.error(`error occurred ${err}`),
       () => console.log('complete')
     );
+
+    of(2, 4, 6, 8).pipe(
+      tap(item => console.log(item)),
+      map(itme => itme * 2),
+      take(2)
+    ).subscribe(console.log);
   }
 
 }
