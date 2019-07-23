@@ -7,7 +7,7 @@ import { ProductService } from './product.service';
 import { ProductCategoryService } from '../product-categories/product-category.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
+ 
 @Component({
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css'],
@@ -25,7 +25,7 @@ export class ProductListComponent {
       return of([]);
     })
   );
-
+ 
   categories$ = this.productCategoryService.productCategories$.pipe(
     catchError(err => {
       this.errorMessage = err;
