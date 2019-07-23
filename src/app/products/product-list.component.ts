@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { Product } from './product';
 import { ProductService } from './product.service';
+import { ProductCategoryService } from '../product-categories/product-category.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -12,19 +13,29 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./product-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductListComponent  {
+export class ProductListComponent {
   pageTitle = 'Product List';
   errorMessage = '';
-  categories;
+
+  selectedCategoryId = 1;
 
   products$ = this.productService.productWithCategory$.pipe(
     catchError(err => {
-    this.errorMessage = err;
+      this.errorMessage = err;
       return of([]);
     })
   );
 
-  constructor(private productService: ProductService) { }
+  categories$ = this.productCategoryService.productCategories$.pipe(
+    catchError(err => {
+      this.errorMessage = err;
+      return of([]);
+    })
+  );
+
+
+  constructor(private productService: ProductService,
+    private productCategoryService: ProductCategoryService) { }
 
 
   onAdd(): void {
