@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -14,11 +14,12 @@ import { catchError } from 'rxjs/operators';
 })
 export class ProductListAltComponent {
   pageTitle = 'Products';
-  errorMessage = '';
+  private errorMessageSubject = new Subject<string>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
  
   products$ = this.productService.productWithCategory$.pipe(
     catchError(err => {
-      this.errorMessage = err;
+      this.errorMessageSubject.next(err);
       return of([]);
     })
   );
