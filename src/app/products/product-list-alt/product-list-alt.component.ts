@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'pm-product-list',
   templateUrl: './product-list-alt.component.html',
-  changeDetection: ChangeDetectionStrategy.onpu
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListAltComponent {
   pageTitle = 'Products';

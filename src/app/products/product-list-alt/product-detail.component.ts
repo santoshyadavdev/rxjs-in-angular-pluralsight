@@ -12,8 +12,8 @@ import { catchError } from 'rxjs/operators';
 export class ProductDetailComponent {
   pageTitle = 'Product Detail';
   errorMessage = '';
-  
-
+    
+   
   product$ = this.productService.selectedproduct$.pipe(
     catchError(err => {
       this.errorMessage = err;
