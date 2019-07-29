@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -9,20 +9,21 @@ import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'pm-product-list',
-  templateUrl: './product-list-alt.component.html'
+  templateUrl: './product-list-alt.component.html',
+  changeDetection: ChangeDetectionStrategy.onpu
 })
 export class ProductListAltComponent {
   pageTitle = 'Products';
   errorMessage = '';
-  selectedProductId;
-
+ 
   products$ = this.productService.productWithCategory$.pipe(
     catchError(err => {
       this.errorMessage = err;
       return of([]);
     })
   );
-  sub: Subscription;
+  
+  selectProduct$ = this.productService.selectedproduct$;
 
   constructor(private productService: ProductService) { }
 
