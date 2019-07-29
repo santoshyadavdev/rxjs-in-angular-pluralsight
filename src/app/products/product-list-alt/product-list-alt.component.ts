@@ -27,6 +27,7 @@ export class ProductListAltComponent {
   constructor(private productService: ProductService) { }
 
   onSelected(productId: number): void {
-    console.log('Not yet implemented');
+    // console.log('Not yet implemented');
+    this.productService.selectedProductChanged(productId);
   }
 }
