@@ -20,7 +20,7 @@ export class ProductService {
     .pipe(
       tap(data => console.log('Products: ', JSON.stringify(data))),
       catchError(this.handleError)
-    ); 
+    );
 
   productWithCategory$ = combineLatest([
     this.product$,
@@ -34,6 +34,13 @@ export class ProductService {
         searchKey: [product.productName]
       }) as Product)
     )
+  );
+
+  selectedproduct$ = this.productWithCategory$.pipe(
+    map(products =>
+      products.find(product => product.id === 5)
+    ),
+    tap(product => console.log('selected product', product))
   );
 
   constructor(private http: HttpClient,
