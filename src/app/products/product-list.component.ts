@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Product } from './product';
 import { ProductService } from './product.service';
 import { ProductCategoryService } from '../product-categories/product-category.service';
-import { of, Subject, combineLatest, EMPTY } from 'rxjs';
+import { of, Subject, combineLatest, EMPTY, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Component({
@@ -17,7 +17,7 @@ export class ProductListComponent {
   pageTitle = 'Product List';
   errorMessage = '';
 
-  private caregorySelectedSubject = new Subject<number>();
+  private caregorySelectedSubject = new BehaviorSubject<number>(0);
   categorySelectedAction$ = this.caregorySelectedSubject.asObservable();
 
   // selectedCategoryId = 1;
@@ -68,5 +68,6 @@ export class ProductListComponent {
 
   onSelected(categoryId: string): void {
     // this.selectedCategoryId = +categoryId;
+    this.caregorySelectedSubject.next(+categoryId);
   }
 }
