@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 
 import {
   Observable, throwError, combineLatest,
-  BehaviorSubject, Subject, merge
+  BehaviorSubject, Subject, merge, from
 } from 'rxjs';
-import { catchError, tap, map, scan, shareReplay } from 'rxjs/operators';
+import { catchError, tap, map, scan, shareReplay, mergeMap, toArray, filter, switchMap } from 'rxjs/operators';
 
 import { Product } from './product';
 import { Supplier } from '../suppliers/supplier';
@@ -76,6 +76,23 @@ export class ProductService {
   ).pipe(
     scan((acc: Product[], value: Product) => [...acc, value])
   );
+
+  // selectedProductSuppliers$ = combineLatest([
+  //   this.selectedproduct$,
+  //   this.supplierService.suppliers$
+  // ]).pipe(
+  //   map(([selectedProduct, suppliers]) =>
+  //     suppliers.filter(supplier => selectedProduct.supplierIds.includes(supplier.id))
+  //   )
+  // )
+
+  selectedProductSuppliers$ = this.selectedproduct$.pipe(
+    filter(selectedproduct => Boolean(selectedproduct)),
+    switchMap(selectedProduct => from(selectedProduct.supplierIds).pipe(
+      mergeMap(supplierId => this.http.get<Supplier>(`${this.suppliersUrl}/${supplierId}`)),
+      toArray()
+    ))
+  )
 
   addProduct(newProduct?: Product) {
     newProduct = newProduct || this.fakeProduct();
