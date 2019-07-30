@@ -5,7 +5,7 @@ import {
   Observable, throwError, combineLatest,
   BehaviorSubject, Subject, merge
 } from 'rxjs';
-import { catchError, tap, map, scan } from 'rxjs/operators';
+import { catchError, tap, map, scan, shareReplay } from 'rxjs/operators';
 
 import { Product } from './product';
 import { Supplier } from '../suppliers/supplier';
@@ -39,7 +39,8 @@ export class ProductService {
         category: categories.find(c => product.categoryId === c.id).name,
         searchKey: [product.productName]
       }) as Product)
-    )
+    ),
+    shareReplay(1)
   );
 
   // selectedproduct$ = this.productWithCategory$.pipe(
@@ -56,7 +57,8 @@ export class ProductService {
   ]).pipe(
     map(([products, selectProductId]) =>
       products.find(product => product.id === selectProductId)
-    )
+    ),
+    shareReplay(1)
   );
 
 

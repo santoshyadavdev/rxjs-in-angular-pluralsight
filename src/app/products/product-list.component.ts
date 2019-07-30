@@ -63,7 +63,7 @@ export class ProductListComponent {
 
 
   onAdd(): void {
-   this.productService.addProduct()
+   this.productService.addProduct();
   }
 
   onSelected(categoryId: string): void {
